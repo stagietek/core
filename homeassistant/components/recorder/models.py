@@ -1,7 +1,9 @@
 """Models for SQLAlchemy."""
 from __future__ import annotations
 
+import asyncio
 from collections.abc import Callable
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 import json
 import logging
@@ -143,6 +145,14 @@ EVENT_ORIGIN_TO_IDX = {origin: idx for idx, origin in enumerate(EVENT_ORIGIN_ORD
 
 class UnsupportedDialect(Exception):
     """The dialect or its version is not supported."""
+
+
+@dataclass
+class RecorderData:
+    """Recorder data stored in hass.data."""
+
+    recorder_platforms: dict[str, Any] = {}
+    db_connected: asyncio.Future = asyncio.Future()
 
 
 class Events(Base):  # type: ignore[misc,valid-type]
